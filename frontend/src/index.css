@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+
+:root {
+  --text: #050411;
+  --background: #f7f6fd;
+  --primary: #5243d3;
+  --secondary: #e48db4;
+  --accent: #da6269;
+}
+
+.dark {
+  --text: #f0eefb;
+  --background: #030208;
+  --primary: #3a2cba;
+  --secondary: #741b43;
+  --accent: #9d252b;
+}
+
+/* Optional: Add smooth transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

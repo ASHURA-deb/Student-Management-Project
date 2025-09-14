@@ -1,0 +1,1 @@
+This revolves around my usage of MySQL and and nodejs for backend, this is a student management app where you can do the normal crud functions

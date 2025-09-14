@@ -1,0 +1,72 @@
+
+.horizontalContainer {
+  display: flex;
+  gap: 16px;
+  padding: calc(var(--mantine-spacing-xl) * 1.5);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.horizontalContainer::-webkit-scrollbar {
+  height: 6px;
+}
+
+.horizontalContainer::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1;
+  border-radius: 3px;
+}
+
+.horizontalContainer::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+.card {
+  background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+  min-width: 250px;
+  flex-shrink: 0;
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.value {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.diff {
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.icon {
+  color: light-dark(var(--mantine-color-gray-4), var(--mantine-color-dark-3));
+}
+
+.title {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .horizontalContainer {
+    padding: var(--mantine-spacing-md);
+  }
+  
+  .card {
+    min-width: 220px;
+  }
+  
+  .value {
+    font-size: 20px;
+  }
+}

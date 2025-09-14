@@ -1,0 +1,139 @@
+/* src/components/StatsGrid.module.css */
+
+.root {
+  padding: 1.5rem 0;
+  background: var(--background);
+}
+
+.statCard {
+  position: relative;
+  background: white;
+  border: 1px solid rgba(82, 67, 211, 0.08) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  overflow: hidden;
+  min-width: 280px;
+  max-width: 320px;
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(82, 67, 211, 0.15) !important;
+  border-color: rgba(82, 67, 211, 0.2) !important;
+}
+
+.statCard:hover .accentLine {
+  height: 4px;
+  opacity: 1;
+}
+
+.title {
+  color: var(--text) !important;
+  opacity: 0.7;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.value {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: var(--text) !important;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.progressContainer {
+  background: linear-gradient(135deg, rgba(82, 67, 211, 0.1), rgba(228, 141, 180, 0.1));
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid rgba(82, 67, 211, 0.15);
+}
+
+.progressText {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.statusBadge {
+  font-weight: 600 !important;
+  padding: 0.5rem 1rem !important;
+  font-size: 0.875rem !important;
+  text-transform: none !important;
+  letter-spacing: 0.025em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.description {
+  font-style: italic;
+  color: var(--text) !important;
+  opacity: 0.6;
+  margin-top: 0.5rem;
+}
+
+.accentLine {
+  transition: all 0.3s ease;
+  opacity: 0.8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .root {
+    padding: 1rem;
+  }
+  
+  .statCard {
+    min-width: 100%;
+    max-width: 100%;
+  }
+  
+  .value {
+    font-size: 1.75rem !important;
+  }
+}
+
+/* Animation for when cards come into view */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.statCard {
+  animation: slideInUp 0.6s ease-out;
+}
+
+.statCard:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.statCard:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.statCard:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.statCard:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+/* Hover effects for icons */
+.statCard:hover [data-theme-icon] {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* Focus states for accessibility */
+.statCard:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
