@@ -4,18 +4,20 @@ import mysql from "mysql2";
 import bcrypt from "bcrypt";
 import cors from "cors"
 import jwt from "jsonwebtoken";
+import dotenv from 'dotenv'
 
 const app = express();
 app.use(express.json());
 
 app.use(cors()); 
 app.use(express.json());
+dotenv.config()
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "folajimi2008",
-  database: "management"
+host: process.env.DB_HOST,
+user: process.env.DB_USER,
+password: process.env.DB_PASSWORD,
+database: process.env.DB_NAME
 });
 
 db.connect(err => {
@@ -296,36 +298,44 @@ app.get("/student/me", verifyToken, (req, res) => {
 //   );
 // });
 
-app.post("/notes", verifyToken, (req, res) => {
-  if (req.user.role !== "student") {
-    return res.status(403).json({ error: "Forbidden" });
-  }
-
+// POST new note
+app.post("/student/notes", verifyToken, async (req, res) => {
   const { title, pdf_url } = req.body;
-  db.query(
-    "INSERT INTO notes (student_id, title, pdf_url) VALUES (?, ?, ?)",
-    [req.user.student_id, title, pdf_url],
-    (err, result) => {
-      if (err) return res.status(500).json({ error: "DB error" });
-      res.json({ message: "Note added successfully", id: result.insertId });
-    }
-  );
-});
+  const student_id = req.user.student_id; // comes from token
 
-app.get("/notes", verifyToken, (req, res) => {
-  if (req.user.role !== "student") {
-    return res.status(403).json({ error: "Forbidden" });
+  if (!title || !pdf_url) {
+    return res.status(400).json({ error: "Title and PDF URL required" });
   }
 
-  db.query(
-    "SELECT * FROM notes WHERE student_id = ?",
-    [req.user.student_id],
-    (err, results) => {
-      if (err) return res.status(500).json({ error: "DB error" });
-      res.json(results);
-    }
-  );
+  try {
+    const [result] = await db.query(
+      "INSERT INTO notes (student_id, title, pdf_url) VALUES (?, ?, ?)",
+      [student_id, title, pdf_url]
+    );
+    res.json({ id: result.insertId, title, pdf_url });
+  } catch (err) {
+    console.error("Error inserting note:", err);
+    res.status(500).json({ error: "Failed to add note" });
+  }
 });
+
+// GET all notes for logged-in student
+app.get("/student/notes", verifyToken, async (req, res) => {
+  const student_id = req.user.student_id;
+
+  try {
+    const [rows] = await db.query(
+      "SELECT * FROM notes WHERE student_id = ? ORDER BY created_at DESC",
+      [student_id]
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error("Error fetching notes:", err);
+    res.status(500).json({ error: "Failed to fetch notes" });
+  }
+});
+
+
 
 
 
