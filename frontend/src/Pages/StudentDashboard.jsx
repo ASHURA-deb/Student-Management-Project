@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import StatsRing from "../Components/StatsRising";
 import './StudentDashboard.css';
+import NotesSection from "../Components/NotesSection";
 import {
   Container,
   Title,
@@ -185,10 +186,11 @@ export default function StudentDashboard() {
             <Stack align="center" gap="lg">
               {/* Avatar with status indicator */}
               <Box pos="relative" className="avatar-container">
-<img 
-  src={student.photo || "https://via.placeholder.com/100"} 
-  alt={student.name} 
-  className="w-24 h-24 rounded-full object-cover"
+<Avatar
+  src={student.avatar || `https://ui-avatars.com/api/?name=${student.name}&background=5243d3&color=fff&size=200`}
+  size={140}
+  radius="50%"
+  className="profile-avatar"
 />
 
 
@@ -287,9 +289,9 @@ export default function StudentDashboard() {
       </Container>
     </Box>
 
-    {/* <a href={note.pdf_url} target="_blank" rel="noopener noreferrer">
-  View PDF
-</a> */}
+<div style={{ marginTop: "2rem" }}>
+  <NotesSection />
+</div>
 
     </>
   );
