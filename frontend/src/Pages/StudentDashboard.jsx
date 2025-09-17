@@ -141,8 +141,9 @@ export default function StudentDashboard() {
   const academicYear = currentYear - student.enrolment_year;
 
   return (
+    <>
     <Box className="dashboard-container">
-      <Container size="lg" py="xl">
+<Container style={{ maxWidth: "100%", width: "100%" }} py="xl">
         {/* Header Section - Centered */}
         <div className="dashboard-header">
           <Stack align="center" gap="lg" mb="xl">
@@ -184,12 +185,14 @@ export default function StudentDashboard() {
             <Stack align="center" gap="lg">
               {/* Avatar with status indicator */}
               <Box pos="relative" className="avatar-container">
-                <Avatar
-                  src={student.avatar || `https://ui-avatars.com/api/?name=${student.name}&background=5243d3&color=fff&size=200`}
-                  size={140}
-                  radius="50%"
-                  className="profile-avatar"
-                />
+<img 
+  src={student.photo || "https://via.placeholder.com/100"} 
+  alt={student.name} 
+  className="w-24 h-24 rounded-full object-cover"
+/>
+
+
+
                 {/* Status indicator */}
                 <Box className="status-indicator" style={{ backgroundColor: getStatusColor(student.status) }} />
               </Box>
@@ -259,7 +262,7 @@ export default function StudentDashboard() {
                 </ActionIcon>
                 <Stack gap="xs" align="center">
                   <Text className="stat-label" ta="center">Student ID</Text>
-                  <Text className="stat-value" ta="center">#{student.id || "N/A"}</Text>
+                  <Text className="stat-value" ta="center">STU00{student.id || "N/A"}</Text>
                   <Text className="stat-description" ta="center">Your unique identifier</Text>
                 </Stack>
               </Group>
@@ -275,12 +278,19 @@ export default function StudentDashboard() {
               </Title>
             </Group>
             
-            <Box style={{ display: 'flex', justifyContent: 'center' }}>
-              <StatsRing data={studentStats} />
+<Box style={{ maxWidth: "100%", width: "100%" }} py="xl">
+
+              <StatsRing data={studentStats}/>
             </Box>
           </Card>
         </Stack>
       </Container>
     </Box>
+
+    {/* <a href={note.pdf_url} target="_blank" rel="noopener noreferrer">
+  View PDF
+</a> */}
+
+    </>
   );
 }

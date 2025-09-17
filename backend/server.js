@@ -280,22 +280,53 @@ app.get("/student/me", verifyToken, (req, res) => {
 });
 
 
-// Express backend
-// app.get("/student/me", authenticateToken, async (req, res) => {
-//   try {
-//     const studentId = req.user.student_id; // from decoded token
-//     const [student] = await db.query("SELECT * FROM students WHERE student_id = ?", [studentId]);
-
-//     if (!student) {
-//       return res.status(404).json({ message: "Student not found" });
-//     }
-
-//     res.json(student);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Server error" });
+// app.put("/student/photo", verifyToken, (req, res) => {
+//   if (req.user.role !== "student") {
+//     return res.status(403).json({ error: "Forbidden" });
 //   }
+
+//   const { photo } = req.body;
+//   db.query(
+//     "UPDATE students SET photo = ? WHERE student_id = ?",
+//     [photo, req.user.student_id],
+//     (err, result) => {
+//       if (err) return res.status(500).json({ error: "DB error" });
+//       res.json({ message: "Photo updated successfully" });
+//     }
+//   );
 // });
+
+app.post("/notes", verifyToken, (req, res) => {
+  if (req.user.role !== "student") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  const { title, pdf_url } = req.body;
+  db.query(
+    "INSERT INTO notes (student_id, title, pdf_url) VALUES (?, ?, ?)",
+    [req.user.student_id, title, pdf_url],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: "DB error" });
+      res.json({ message: "Note added successfully", id: result.insertId });
+    }
+  );
+});
+
+app.get("/notes", verifyToken, (req, res) => {
+  if (req.user.role !== "student") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  db.query(
+    "SELECT * FROM notes WHERE student_id = ?",
+    [req.user.student_id],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: "DB error" });
+      res.json(results);
+    }
+  );
+});
+
 
 
 
